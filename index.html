@@ -32,6 +32,7 @@
       position: absolute;
       margin-top: 5%;
       margin-left: 3%;
+      width: 100%;
     }
 
     .fullscreen-bg {
@@ -60,11 +61,26 @@
 
     @media (max-width: 767px) {
         .fullscreen-bg {
-            background: url('bgvideoimg.jpg') center center / cover no-repeat;
+            background: url(bgvideoimg.jpg) -580px  center / cover no-repeat;
+            /**background: url('bgvideoimg.jpg') center center / cover no-repeat;**/
         }
 
         .fullscreen-bg__video {
             display: none;
+        }
+
+        .content{
+          position: fixed;
+          top: 0;
+        }
+
+        #socialLinks{
+          flex-direction: column !important;
+        }
+
+        .socialMedia{
+          margin-top: 10px;
+          margin-bottom: 10px;
         }
     }
 
@@ -72,10 +88,10 @@
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
-      justify-content: space-around;
+      justify-content: space-between;
       height: 24px;
-      width: 300px;
-      margin-left: auto;
+      width: 400px;
+      margin-left: 0;
       margin-right: auto;
     }
     
@@ -85,6 +101,8 @@
       width: 24px;
       opacity: 0.9;
       transition: opacity 0.3s ease-in-out;
+      margin-left: 10px;
+      margin-right: 10px;
     }
 
     .socialMedia :hover{
