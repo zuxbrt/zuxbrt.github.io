@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>░░░░░░</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+
+<style>
+
+    body{
+      margin: 0;
+    }
+
+    *{
+      cursor: url("cursor.cur"), default;
+    }
+
+    html {
+        cursor: none;
+        background: #666;
+    }
+
+    .content{
+      position: absolute;
+      margin-top: 5%;
+      margin-left: 3%;
+    }
+
+    .fullscreen-bg {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: -100;
+    }
+
+    .fullscreen-bg__video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: auto;
+        height: auto;
+        min-width: 100%;
+        min-height: 100%;
+        -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+    }
+
+    @media (max-width: 767px) {
+        .fullscreen-bg {
+            background: url('bgvideoimg.jpg') center center / cover no-repeat;
+        }
+
+        .fullscreen-bg__video {
+            display: none;
+        }
+    }
+
+    #socialLinks{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      height: 24px;
+      width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .socialMedia{
+      display: block;
+      height: 24px;
+      width: 24px;
+      opacity: 0.6;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .socialMedia :hover{
+      opacity: 1;
+    }
+
+
+
+
+</style>
+
+<body>
+
+    <div class="fullscreen-bg">
+        <video loop muted autoplay poster="bgvideoimg.jpg" class="fullscreen-bg__video">
+            <source src="bgvideo.webm" type="video/webm">
+            <source src="bgvideo.mp4" type="video/mp4">
+            <source src="bgvideo.ogv" type="video/ogg">
+        </video>
+
+        
+        
+
+        <div class="content">
+
+            <div id="socialLinks">
+
+                <a href="https://www.facebook.com/zuxprodx/" target="_blank">
+                  <img class="socialMedia" src="icons/facebook.svg">
+                </a>
+    
+                <a href="https://www.youtube.com/channel/UCfkO3y5Z_s1FecbD67NZ9lA" target="_blank">
+                  <img class="socialMedia" src="icons/youtube.svg">
+                </a>
+    
+                <a href="https://soundcloud.com/zux323" target="_blank">
+                  <img class="socialMedia" src="icons/soundcloud.svg" target="_blank">
+                </a>
+
+                <a href=" https://www.youtube.com/watch?v=gX33QQbTpr8" target="_blank">
+                  <img class="socialMedia" src="icons/pngsvg.svg">
+                </a>
+
+               
+
+            </div>
+
+        </div>
+
+
+       
+    </div>
+
+    <div style="visibility:hidden">
+
+        <iframe src="music.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+        </iframe> 
+
+        <audio autoplay loop  id="playAudio">
+            <source src="music.mp3">
+          </audio>
+    </div>
+    
+
+</body>
+
+
+<script>
+
+var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    if(!isChrome){
+      $('#iframeAudio').remove()
+    }
+  else{
+     $('#playAudio').remove() //just to make sure that it will not have 2x audio in the background 
+  }
+
+
+</script>
+
+
+</html>
