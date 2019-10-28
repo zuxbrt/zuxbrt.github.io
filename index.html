@@ -10,174 +10,520 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/TweenLite.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/EasePack.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 
 <style>
 
-    body{
-      margin: 0;
+    html, body, * {
+        cursor: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
     }
 
-    *{
-      /**cursor: url("cursor.cur"), default;**/
+    body{
+        margin: 0;
+        background: linear-gradient(-45deg, #000000, #00000a, #000009, #000011);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .cursor-dot,
+    .cursor-dot-outline {
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+        transition: opacity 0.3s ease-in-out,
+                    transform 0.3s ease-in-out;
+    }
+
+    .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -ms-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+
+    }
+
+    .cursor-dot-outline {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin: 0;
+        padding: 0;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -ms-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
     }
 
     html {
         /**cursor: none;**/
-        background: #666;
-    }
-
-    .content{
-      position: absolute;
-      margin-top: 3%;
-      margin-left: 3%;
-      width: 100%;
-    }
-
-    .fullscreen-bg {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        overflow: hidden;
-        z-index: -100;
-    }
-
-    .fullscreen-bg__video {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: auto;
-        height: auto;
-        min-width: 100%;
-        min-height: 100%;
-        -webkit-transform: translate(-50%, -50%);
-          -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-    }
-
-    @media (max-width: 767px) {
-        .fullscreen-bg {
-            background: url('bgvideoimg.jpg') center center / cover no-repeat;
-        }
-
-        .fullscreen-bg__video {
-            display: none;
-        }
-
-        .content{
-          position: fixed;
-          top: 0;
-          left: 1%;
-        }
-
-        #socialLinks{
-          flex-direction: column !important;
-        }
-
-        .socialMedia{
-          margin-top: 10px;
-          margin-bottom: 10px;
-        }
+        height: 100%;
+        background-size: cover;
+        background: black;
     }
 
     #socialLinks{
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-      height: 24px;
-      width: 400px;
-      margin-left: 0;
-      margin-right: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        height: 32px;
+        width: 400px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
     
     .socialMedia{
-      display: block;
-      height: 24px;
-      width: 24px;
-      opacity: 1;
-      transition: opacity 0.3s ease-in-out;
-      margin-left: 10px;
-      margin-right: 10px;
+        display: block;
+        height: 32px;
+        width: 32px;
+        opacity: 0.3;
+        margin-left: 10px;
+        margin-right: 10px;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -ms-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
     }
+
+    .socialMedia:hover{
+        opacity: 1;
+        zoom: 1;
+        filter: alpha(opacity=100);
+        opacity: 1;
+    }
+
+    canvas {
+        display: block;
+        height: 100%;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        width: 100%
+    }
+
 
 </style>
 
-<body>
-
-    <div class="fullscreen-bg">
-        <video loop muted autoplay poster="bgvideoimg.jpg" class="fullscreen-bg__video">
-            <source src="bgvideo.webm" type="video/webm">
-            <source src="bgvideo.mp4" type="video/mp4">
-            <source src="bgvideo.ogv" type="video/ogg">
-        </video>
-
-        
-        
-
-        <div class="content">
-
-            <div id="socialLinks">
+<body> 
+        <div class="container demo">
+                <div class="content">
+                   <div id="large-header" class="large-header">
+                      <canvas id="demo-canvas"></canvas>
+                   </div>
+                </div>
+        </div>
+        <div id="socialLinks">
 
                 <a href="https://www.facebook.com/zuxprodx/" target="_blank">
-                  <img class="socialMedia" src="icons/facebook.svg">
+                  <img class="socialMedia" src="icons/facebook.svg" id="fb">
                 </a>
     
                 <a href="https://www.youtube.com/channel/UCfkO3y5Z_s1FecbD67NZ9lA" target="_blank">
-                  <img class="socialMedia" src="icons/youtube.svg">
+                  <img class="socialMedia" src="icons/youtube.svg" id="yt">
                 </a>
     
                 <a href="https://soundcloud.com/zux323" target="_blank">
-                  <img class="socialMedia" src="icons/soundcloud.svg" target="_blank">
+                  <img class="socialMedia" src="icons/soundcloud.svg" target="_blank" id="sc">
                 </a>
 
                 <a href=" https://github.com/zuxbrt" target="_blank">
-                  <img class="socialMedia" src="icons/github.svg">
+                  <img class="socialMedia" src="icons/github.svg" id="gh">
                 </a>
 
                 <a href=" https://www.youtube.com/watch?v=gX33QQbTpr8" target="_blank">
-                  <img class="socialMedia" src="icons/pngsvg.svg">
+                  <img class="socialMedia" src="icons/pngsvg.svg" id="penta">
                 </a>
 
-                
-
-               
-
-            </div>
-
         </div>
-
-
-       
-    </div>
-
-    <div style="visibility:hidden">
-
-        <iframe src="music.mp3" allow="autoplay" style="display:none" id="iframeAudio">
-        </iframe> 
-
-        <audio autoplay loop  id="playAudio">
-            <source src="music.mp3">
-          </audio>
-    </div>
-    
-
+        
+        <div class="cursor-dot-outline" id="cursor-outline"></div>
+        <div class="cursor-dot"></div>
 </body>
 
 
 <script>
 
-var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    if(!isChrome){
-      $('#iframeAudio').remove()
+$( document ).ready(function() {
+    console.log( "one big nothing" );
+});
+
+
+(function() {
+
+var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
+
+// Main
+initHeader();
+initAnimation();
+addListeners();
+
+function initHeader() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    target = {x: width/2, y: height/2};
+
+    largeHeader = document.getElementById('large-header');
+    largeHeader.style.height = height+'px';
+
+    canvas = document.getElementById('demo-canvas');
+    canvas.width = width;
+    canvas.height = height;
+    ctx = canvas.getContext('2d');
+
+    // create points
+    points = [];
+    for(var x = 0; x < width; x = x + width/25) {
+        for(var y = 0; y < height; y = y + height/25) {
+            var px = x + Math.random()*width/25;
+            var py = y + Math.random()*height/25;
+            var p = {x: px, originX: px, y: py, originY: py };
+            points.push(p);
+        }
     }
-  else{
-     $('#playAudio').remove() //just to make sure that it will not have 2x audio in the background 
-  }
+
+    // for each point find the 5 closest points
+    for(var i = 0; i < points.length; i++) {
+        var closest = [];
+        var p1 = points[i];
+        for(var j = 0; j < points.length; j++) {
+            var p2 = points[j]
+            if(!(p1 == p2)) {
+                var placed = false;
+                for(var k = 0; k < 5; k++) {
+                    if(!placed) {
+                        if(closest[k] == undefined) {
+                            closest[k] = p2;
+                            placed = true;
+                        }
+                    }
+                }
+
+                for(var k = 0; k < 5; k++) {
+                    if(!placed) {
+                        if(getDistance(p1, p2) < getDistance(p1, closest[k])) {
+                            closest[k] = p2;
+                            placed = true;
+                        }
+                    }
+                }
+            }
+        }
+        p1.closest = closest;
+    }
+
+    // assign a circle to each point
+    for(var i in points) {
+        var c = new Circle(points[i], 2+Math.random()*2, 'rgba(255,255,255,0.3)');
+        points[i].circle = c;
+    }
+}
+
+// Event handling
+function addListeners() {
+    if(!('ontouchstart' in window)) {
+        window.addEventListener('mousemove', mouseMove);
+    }
+    window.addEventListener('scroll', scrollCheck);
+    window.addEventListener('resize', resize);
+}
+
+function mouseMove(e) {
+    if(e.path[0].id === 'sc' || e.path[0].id === 'gh' || e.path[0].id === 'fb' || e.path[0].id === 'yt' || e.path[0].id === 'penta'){
+        // increase outline
+        document.getElementById('cursor-outline').style = 'border: 1px solid white; opacity: 1;';
+    } else {
+        document.getElementById('cursor-outline').style = 'border: 0px solid white; opacity: 0;';
+    }
+
+    var posx = posy = 0;
+    if (e.pageX || e.pageY) {
+        posx = e.pageX;
+        posy = e.pageY;
+    }
+    else if (e.clientX || e.clientY)    {
+        posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+    target.x = posx;
+    target.y = posy;
+}
+
+function scrollCheck() {
+    if(document.body.scrollTop > height) animateHeader = false;
+    else animateHeader = true;
+}
+
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    largeHeader.style.height = height+'px';
+    canvas.width = width;
+    canvas.height = height;
+}
+
+// animation
+function initAnimation() {
+    animate();
+    for(var i in points) {
+        shiftPoint(points[i]);
+    }
+}
+
+function animate() {
+    if(animateHeader) {
+        ctx.clearRect(0,0,width,height);
+        for(var i in points) {
+            // detect points in range
+            if(Math.abs(getDistance(target, points[i])) < 4000) {
+                points[i].active = 0.3;
+                points[i].circle.active = 0.6;
+            } else if(Math.abs(getDistance(target, points[i])) < 20000) {
+                points[i].active = 0.1;
+                points[i].circle.active = 0.3;
+            } else if(Math.abs(getDistance(target, points[i])) < 40000) {
+                points[i].active = 0.02;
+                points[i].circle.active = 0.1;
+            } else {
+                points[i].active = 0;
+                points[i].circle.active = 0;
+            }
+
+            drawLines(points[i]);
+            points[i].circle.draw();
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+function shiftPoint(p) {
+    TweenLite.to(p, 1+1*Math.random(), {x:p.originX-50+Math.random()*100,
+        y: p.originY-50+Math.random()*100, ease:Circ.easeInOut,
+        onComplete: function() {
+            shiftPoint(p);
+        }});
+}
+
+// Canvas manipulation
+function drawLines(p) {
+    if(!p.active) return;
+    for(var i in p.closest) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.closest[i].x, p.closest[i].y);
+        ctx.strokeStyle = 'rgba(156,217,249,'+ p.active+')';
+        ctx.stroke();
+    }
+}
+
+function Circle(pos,rad,color) {
+    var _this = this;
+
+    // constructor
+    (function() {
+        _this.pos = pos || null;
+        _this.radius = rad || null;
+        _this.color = color || null;
+    })();
+
+    this.draw = function() {
+        if(!_this.active) return;
+        ctx.beginPath();
+        ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'rgba(255, 255, 255,'+ _this.active+')';
+        ctx.fill();
+    };
+}
+
+// Util
+function getDistance(p1, p2) {
+    return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+}
+
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var cursor = {
+    delay: 8,
+    _x: 0,
+    _y: 0,
+    endX: (window.innerWidth / 2),
+    endY: (window.innerHeight / 2),
+    cursorVisible: true,
+    cursorEnlarged: false,
+    $dot: document.querySelector('.cursor-dot'),
+    $outline: document.querySelector('.cursor-dot-outline'),
+    
+    init: function() {
+        // Set up element sizes
+        this.dotSize = this.$dot.offsetWidth;
+        this.outlineSize = this.$outline.offsetWidth;
+        
+        this.setupEventListeners();
+        this.animateDotOutline();
+    },
+    
+//     updateCursor: function(e) {
+//         var self = this;
+        
+//         console.log(e)
+        
+//         // Show the cursor
+//         self.cursorVisible = true;
+//         self.toggleCursorVisibility();
+
+//         // Position the dot
+//         self.endX = e.pageX;
+//         self.endY = e.pageY;
+//         self.$dot.style.top = self.endY + 'px';
+//         self.$dot.style.left = self.endX + 'px';
+//     },
+    
+    setupEventListeners: function() {
+        var self = this;
+        
+        // Anchor hovering
+        document.querySelectorAll('a').forEach(function(el) {
+            el.addEventListener('mouseover', function() {
+                self.cursorEnlarged = true;
+                self.toggleCursorSize();
+            });
+            el.addEventListener('mouseout', function() {
+                self.cursorEnlarged = false;
+                self.toggleCursorSize();
+            });
+        });
+        
+        // Click events
+        document.addEventListener('mousedown', function() {
+            self.cursorEnlarged = true;
+            self.toggleCursorSize();
+        });
+        document.addEventListener('mouseup', function() {
+            self.cursorEnlarged = false;
+            self.toggleCursorSize();
+        });
+  
+  
+        document.addEventListener('mousemove', function(e) {
+            // Show the cursor
+            self.cursorVisible = true;
+            self.toggleCursorVisibility();
+
+            // Position the dot
+            self.endX = e.pageX;
+            self.endY = e.pageY;
+            self.$dot.style.top = self.endY + 'px';
+            self.$dot.style.left = self.endX + 'px';
+        });
+        
+        // Hide/show cursor
+        document.addEventListener('mouseenter', function(e) {
+            self.cursorVisible = true;
+            self.toggleCursorVisibility();
+            self.$dot.style.opacity = 1;
+            self.$outline.style.opacity = 1;
+        });
+        
+        document.addEventListener('mouseleave', function(e) {
+            self.cursorVisible = true;
+            self.toggleCursorVisibility();
+            self.$dot.style.opacity = 0;
+            self.$outline.style.opacity = 0;
+        });
+    },
+    
+    animateDotOutline: function() {
+        var self = this;
+        
+        self._x += (self.endX - self._x) / self.delay;
+        self._y += (self.endY - self._y) / self.delay;
+        self.$outline.style.top = self._y + 'px';
+        self.$outline.style.left = self._x + 'px';
+        
+        requestAnimationFrame(this.animateDotOutline.bind(self));
+    },
+    
+    toggleCursorSize: function() {
+        var self = this;
+        
+        if (self.cursorEnlarged) {
+            self.$dot.style.transform = 'translate(-50%, -50%) scale(0.75)';
+            self.$outline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        } else {
+            self.$dot.style.transform = 'translate(-50%, -50%) scale(1)';
+            self.$outline.style.transform = 'translate(-50%, -50%) scale(1)';
+        }
+    },
+    
+    toggleCursorVisibility: function() {
+        var self = this;
+        
+        if (self.cursorVisible) {
+            self.$dot.style.opacity = 1;
+            self.$outline.style.opacity = 1;
+        } else {
+            self.$dot.style.opacity = 0;
+            self.$outline.style.opacity = 0;
+        }
+    }
+}
+
+cursor.init();
 
 
 </script>
