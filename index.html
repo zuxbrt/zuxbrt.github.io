@@ -47,6 +47,7 @@
     .cursor-dot-outline {
         pointer-events: none;
         position: absolute;
+        background-color: white;
         top: 50%;
         left: 50%;
         border-radius: 50%;
@@ -60,7 +61,6 @@
     .cursor-dot {
         width: 8px;
         height: 8px;
-        background-color: white;
         margin: 0;
         padding: 0;
         -webkit-transition: opacity 1s ease-in-out;
@@ -75,7 +75,6 @@
         width: 60px;
         height: 60px;
         background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid white;
         margin: 0;
         padding: 0;
         -webkit-transition: opacity 1s ease-in-out;
@@ -83,6 +82,17 @@
         -ms-transition: opacity 1s ease-in-out;
         -o-transition: opacity 1s ease-in-out;
         transition: opacity 1s ease-in-out;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .cursor-dot,
+        .cursor-dot-outline {
+            display: none;
+        }
+
+        .socialMedia{
+            opacity: 1;
+        }
     }
 
     html {
@@ -211,7 +221,7 @@ function initHeader() {
     
     ctx = canvas.getContext('2d');
 
-    if($(window).width() < 600){    
+    if($(window).width() < 600){
         var approxWidth = 40;
         var approxHeight = 40;
     } else {
@@ -279,9 +289,7 @@ function addListeners() {
 function mouseMove(e) {
     if(e.path[0].id === 'sc' || e.path[0].id === 'gh' || e.path[0].id === 'fb' || e.path[0].id === 'yt' || e.path[0].id === 'penta'){
         // increase outline
-        document.getElementById('cursor-outline').style = 'border-color: white;';
     } else {
-        document.getElementById('cursor-outline').style = 'border-color: transparent;';
     }
 
     var posx = posy = 0;
@@ -518,7 +526,7 @@ var cursor = {
         
         if (self.cursorEnlarged) {
             self.$dot.style.transform = 'translate(-50%, -50%) scale(0.75)';
-            self.$outline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            self.$outline.style.transform = 'translate(-50%, -50%) scale(1.1)';
         } else {
             self.$dot.style.transform = 'translate(-50%, -50%) scale(1)';
             self.$outline.style.transform = 'translate(-50%, -50%) scale(1)';
