@@ -13,12 +13,13 @@
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/TweenLite.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/EasePack.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous"></script>
 </head>
 
 <style>
 
     html, body, * {
-        cursor: none;
+        /* cursor: none; */
         margin: 0;
         padding: 0;
         overflow: hidden;
@@ -29,122 +30,6 @@
         background: linear-gradient(-45deg, #000000, #00000a, #000009, #000011);
         background-size: 400% 400%;
         animation: gradientBG 15s ease infinite;
-    }
-
-    @keyframes gradientBG {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-
-    .cursor-dot,
-    .cursor-dot-outline {
-        pointer-events: none;
-        position: absolute;
-        background-color: white;
-        top: 50%;
-        left: 50%;
-        border-radius: 50%;
-        opacity: 0;
-        transform: translate(-50%, -50%);
-        transition: opacity 0.3s ease-in-out,
-                    transform 0.3s ease-in-out,
-                    border-color 0.3s ease-in-out;
-    }
-
-    .cursor-dot {
-        width: 8px;
-        height: 8px;
-        margin: 0;
-        padding: 0;
-        -webkit-transition: opacity 1s ease-in-out;
-        -moz-transition: opacity 1s ease-in-out;
-        -ms-transition: opacity 1s ease-in-out;
-        -o-transition: opacity 1s ease-in-out;
-        transition: opacity 1s ease-in-out;
-
-    }
-
-    .cursor-dot-outline {
-        width: 60px;
-        height: 60px;
-        background-color: rgba(255, 255, 255, 0.1);
-        margin: 0;
-        padding: 0;
-        -webkit-transition: opacity 1s ease-in-out;
-        -moz-transition: opacity 1s ease-in-out;
-        -ms-transition: opacity 1s ease-in-out;
-        -o-transition: opacity 1s ease-in-out;
-        transition: opacity 1s ease-in-out;
-    }
-
-    @media only screen and (max-width: 768px) {
-        .cursor-dot,
-        .cursor-dot-outline {
-            display: none;
-        }
-
-        .socialMedia{
-            opacity: 1;
-        }
-    }
-
-    html {
-        /**cursor: none;**/
-        height: 100%;
-        background-size: cover;
-        background: black;
-    }
-
-    #socialLinks{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        height: 32px;
-        width: 400px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    
-    .socialMedia{
-        display: block;
-        height: 32px;
-        width: 32px;
-        opacity: 0.3;
-        margin-left: 10px;
-        margin-right: 10px;
-        -webkit-transition: opacity 1s ease-in-out;
-        -moz-transition: opacity 1s ease-in-out;
-        -ms-transition: opacity 1s ease-in-out;
-        -o-transition: opacity 1s ease-in-out;
-        transition: opacity 1s ease-in-out;
-    }
-
-    .socialMedia:hover{
-        opacity: 1;
-        zoom: 1;
-        filter: alpha(opacity=100);
-        opacity: 1;
-    }
-
-    canvas {
-        display: block;
-        height: 100%;
-        left: 0;
-        margin: 0;
-        padding: 0;
-        position: absolute;
-        top: 0;
-        width: 100%
     }
 
 
@@ -177,374 +62,121 @@
                 </a>
 
         </div>
-        
-        <div class="cursor-dot-outline" id="cursor-outline"></div>
-        <div class="cursor-dot"></div>
 </body>
+
+<script type="module">
+
+    import * as THREE from '../build/three.module.js';
+
+    import { AsciiEffect } from './jsm/effects/AsciiEffect.js';
+    import { TrackballControls } from './jsm/controls/TrackballControls.js';
+
+    let camera, controls, scene, renderer, effect;
+
+    let sphere, plane;
+
+    const start = Date.now();
+
+    init();
+    animate();
+
+    function init() {
+
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+        camera.position.y = 150;
+        camera.position.z = 500;
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color( 0, 0, 0 );
+
+        const pointLight1 = new THREE.PointLight( 0xffffff );
+        pointLight1.position.set( 500, 500, 500 );
+        scene.add( pointLight1 );
+
+        const pointLight2 = new THREE.PointLight( 0xffffff, 0.25 );
+        pointLight2.position.set( - 500, - 500, - 500 );
+        scene.add( pointLight2 );
+
+        sphere = new THREE.Mesh( new THREE.SphereGeometry( 200, 20, 10 ), new THREE.MeshPhongMaterial( { flatShading: true } ) );
+        scene.add( sphere );
+
+        // Plane
+
+        plane = new THREE.Mesh( new THREE.PlaneGeometry( 400, 400 ), new THREE.MeshBasicMaterial( { color: 0xe0e0e0 } ) );
+        plane.position.y = - 200;
+        plane.rotation.x = - Math.PI / 2;
+        scene.add( plane );
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        effect = new AsciiEffect( renderer, ' .:-+*=%@#', { invert: true } );
+        effect.setSize( window.innerWidth, window.innerHeight );
+        effect.domElement.style.color = 'white';
+        effect.domElement.style.backgroundColor = 'black';
+
+        // Special case: append effect.domElement, instead of renderer.domElement.
+        // AsciiEffect creates a custom domElement (a div container) where the ASCII elements are placed.
+
+        document.body.appendChild( effect.domElement );
+
+        controls = new TrackballControls( camera, effect.domElement );
+
+        //
+
+        window.addEventListener( 'resize', onWindowResize );
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        effect.setSize( window.innerWidth, window.innerHeight );
+
+    }
+
+    //
+
+    function animate() {
+
+        requestAnimationFrame( animate );
+
+        render();
+
+    }
+
+    function render() {
+
+        const timer = Date.now() - start;
+
+        sphere.position.y = Math.abs( Math.sin( timer * 0.002 ) ) * 150;
+        sphere.rotation.x = timer * 0.0003;
+        sphere.rotation.z = timer * 0.0002;
+
+        controls.update();
+
+        effect.render( scene, camera );
+
+    }
+
+</script>
 
 
 <script>
 
 $( document ).ready(function() {
-    //$.getJSON('https://api.quotable.io/random', function(data) {
+    // $.getJSON('https://api.quotable.io/random', function(data) {
     //    console.log(`${data.content} —${data.author}`)
-    //})
+    // })
 });
 
 
 (function() {
 
-var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
-
-// Main
-initHeader();
-initAnimation();
-addListeners();
-
-function initHeader() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    target = {x: width/2, y: height/2};
-
-    largeHeader = document.getElementById('large-header');
-    largeHeader.style.height = height+'px';
-
-    canvas = document.getElementById('demo-canvas');
-
-    canvas.width = width;
-    canvas.height = height;
-
-    
-    ctx = canvas.getContext('2d');
-
-    if($(window).width() < 600){
-        var approxWidth = 40;
-        var approxHeight = 40;
-    } else {
-        var approxWidth = width/25;
-        var approxHeight = height/25;
-    }
-
-    // create points
-    points = [];
-    for(var x = 0; x < width; x = x + approxWidth) {
-        for(var y = 0; y < height; y = y +  height/25) {
-            var px = x + Math.random()*approxWidth;
-            var py = y + Math.random()* height/25;
-            var p = {x: px, originX: px, y: py, originY: py };
-            points.push(p);
-        }
-    }
-
-    // for each point find the 5 closest points
-    for(var i = 0; i < points.length; i++) {
-        var closest = [];
-        var p1 = points[i];
-        for(var j = 0; j < points.length; j++) {
-            var p2 = points[j]
-            if(!(p1 == p2)) {
-                var placed = false;
-                for(var k = 0; k < 5; k++) {
-                    if(!placed) {
-                        if(closest[k] == undefined) {
-                            closest[k] = p2;
-                            placed = true;
-                        }
-                    }
-                }
-
-                for(var k = 0; k < 5; k++) {
-                    if(!placed) {
-                        if(getDistance(p1, p2) < getDistance(p1, closest[k])) {
-                            closest[k] = p2;
-                            placed = true;
-                        }
-                    }
-                }
-            }
-        }
-        p1.closest = closest;
-    }
-
-    // assign a circle to each point
-    for(var i in points) {
-        var c = new Circle(points[i], 2+Math.random()*2, 'rgba(255,255,255,0.3)');
-        points[i].circle = c;
-    }
-}
-
-// Event handling
-function addListeners() {
-    if(!('ontouchstart' in window)) {
-        window.addEventListener('mousemove', mouseMove);
-    }
-    window.addEventListener('scroll', scrollCheck);
-    window.addEventListener('resize', resize);
-}
-
-function mouseMove(e) {
-    if(e.path[0].id === 'sc' || e.path[0].id === 'gh' || e.path[0].id === 'fb' || e.path[0].id === 'yt' || e.path[0].id === 'penta'){
-        // increase outline
-    } else {
-    }
-
-    var posx = posy = 0;
-    if (e.pageX || e.pageY) {
-        posx = e.pageX;
-        posy = e.pageY;
-    }
-    else if (e.clientX || e.clientY)    {
-        posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    }
-    target.x = posx;
-    target.y = posy;
-}
-
-function scrollCheck() {
-    if(document.body.scrollTop > height) animateHeader = false;
-    else animateHeader = true;
-}
-
-function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    largeHeader.style.height = height+'px';
-    canvas.width = width;
-    canvas.height = height;
-}
-
-// animation
-function initAnimation() {
-    animate();
-    for(var i in points) {
-        shiftPoint(points[i]);
-    }
-}
-
-function animate() {
-    if(animateHeader) {
-        ctx.clearRect(0,0,width,height);
-        for(var i in points) {
-            // detect points in range
-            if(Math.abs(getDistance(target, points[i])) < 4000) {
-                points[i].active = 0.3;
-                points[i].circle.active = 0.6;
-            } else if(Math.abs(getDistance(target, points[i])) < 20000) {
-                points[i].active = 0.1;
-                points[i].circle.active = 0.3;
-            } else if(Math.abs(getDistance(target, points[i])) < 40000) {
-                points[i].active = 0.02;
-                points[i].circle.active = 0.1;
-            } else {
-                points[i].active = 0;
-                points[i].circle.active = 0;
-            }
-
-            drawLines(points[i]);
-            points[i].circle.draw();
-        }
-    }
-    requestAnimationFrame(animate);
-}
-
-function shiftPoint(p) {
-    TweenLite.to(p, 1+1*Math.random(), {x:p.originX-50+Math.random()*100,
-        y: p.originY-50+Math.random()*100, ease:Circ.easeInOut,
-        onComplete: function() {
-            shiftPoint(p);
-        }});
-}
-
-// Canvas manipulation
-function drawLines(p) {
-    if(!p.active) return;
-    for(var i in p.closest) {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.closest[i].x, p.closest[i].y);
-        ctx.strokeStyle = 'rgba(156,217,249,'+ p.active+')';
-        ctx.stroke();
-    }
-}
-
-function Circle(pos,rad,color) {
-    var _this = this;
-
-    // constructor
-    (function() {
-        _this.pos = pos || null;
-        _this.radius = rad || null;
-        _this.color = color || null;
-    })();
-
-    this.draw = function() {
-        if(!_this.active) return;
-        ctx.beginPath();
-        ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'rgba(255, 255, 255,'+ _this.active+')';
-        ctx.fill();
-    };
-}
-
-// Util
-function getDistance(p1, p2) {
-    return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
-}
-
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var cursor = {
-    delay: 8,
-    _x: 0,
-    _y: 0,
-    endX: (window.innerWidth / 2),
-    endY: (window.innerHeight / 2),
-    cursorVisible: true,
-    cursorEnlarged: false,
-    $dot: document.querySelector('.cursor-dot'),
-    $outline: document.querySelector('.cursor-dot-outline'),
-    
-    init: function() {
-        // Set up element sizes
-        this.dotSize = this.$dot.offsetWidth;
-        this.outlineSize = this.$outline.offsetWidth;
-        
-        this.setupEventListeners();
-        this.animateDotOutline();
-    },
-    
-//     updateCursor: function(e) {
-//         var self = this;
-        
-//         console.log(e)
-        
-//         // Show the cursor
-//         self.cursorVisible = true;
-//         self.toggleCursorVisibility();
-
-//         // Position the dot
-//         self.endX = e.pageX;
-//         self.endY = e.pageY;
-//         self.$dot.style.top = self.endY + 'px';
-//         self.$dot.style.left = self.endX + 'px';
-//     },
-    
-    setupEventListeners: function() {
-        var self = this;
-        
-        // Anchor hovering
-        document.querySelectorAll('a').forEach(function(el) {
-            el.addEventListener('mouseover', function() {
-                self.cursorEnlarged = true;
-                self.toggleCursorSize();
-            });
-            el.addEventListener('mouseout', function() {
-                self.cursorEnlarged = false;
-                self.toggleCursorSize();
-            });
-        });
-        
-        // Click events
-        document.addEventListener('mousedown', function() {
-            self.cursorEnlarged = true;
-            self.toggleCursorSize();
-        });
-        document.addEventListener('mouseup', function() {
-            self.cursorEnlarged = false;
-            self.toggleCursorSize();
-        });
-  
-  
-        document.addEventListener('mousemove', function(e) {
-            // Show the cursor
-            self.cursorVisible = true;
-            self.toggleCursorVisibility();
-
-            // Position the dot
-            self.endX = e.pageX;
-            self.endY = e.pageY;
-            self.$dot.style.top = self.endY + 'px';
-            self.$dot.style.left = self.endX + 'px';
-        });
-        
-        // Hide/show cursor
-        document.addEventListener('mouseenter', function(e) {
-            self.cursorVisible = true;
-            self.toggleCursorVisibility();
-            self.$dot.style.opacity = 1;
-            self.$outline.style.opacity = 1;
-        });
-        
-        document.addEventListener('mouseleave', function(e) {
-            self.cursorVisible = true;
-            self.toggleCursorVisibility();
-            self.$dot.style.opacity = 0;
-            self.$outline.style.opacity = 0;
-        });
-    },
-    
-    animateDotOutline: function() {
-        var self = this;
-        
-        self._x += (self.endX - self._x) / self.delay;
-        self._y += (self.endY - self._y) / self.delay;
-        self.$outline.style.top = self._y + 'px';
-        self.$outline.style.left = self._x + 'px';
-        
-        requestAnimationFrame(this.animateDotOutline.bind(self));
-    },
-    
-    toggleCursorSize: function() {
-        var self = this;
-        
-        if (self.cursorEnlarged) {
-            self.$dot.style.transform = 'translate(-50%, -50%) scale(0.75)';
-            self.$outline.style.transform = 'translate(-50%, -50%) scale(1.1)';
-        } else {
-            self.$dot.style.transform = 'translate(-50%, -50%) scale(1)';
-            self.$outline.style.transform = 'translate(-50%, -50%) scale(1)';
-        }
-    },
-    
-    toggleCursorVisibility: function() {
-        var self = this;
-        
-        if (self.cursorVisible) {
-            self.$dot.style.opacity = 1;
-            self.$outline.style.opacity = 1;
-        } else {
-            self.$dot.style.opacity = 0;
-            self.$outline.style.opacity = 0;
-        }
-    }
-}
-
-cursor.init();
-
-
+});
 </script>
 
 
