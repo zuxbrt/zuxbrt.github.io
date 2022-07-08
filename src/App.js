@@ -1,35 +1,31 @@
 import { Suspense } from "react";
 import { Route, Link, Routes } from "react-router-dom";
 
-import './App.css';
-import Scene from "./components/Scene";
-// import Home from "./pages/Home";
-// import About from "./pages/About";
-// import Contact from "./pages/Contact";
+import './App.scss';
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Index from "./pages/Index";
 
 function App() {
   return (
-    <div>
-      <Suspense fallback={''}>
-              <Scene/>
+      <Suspense fallback={'loading'}>
+
+        <div className="app__content">
+          <nav id="navigation">
+              <Link to="/" className="header__link"> {'</>'} </Link>
+              <Link to="/about" className="header__link">About</Link>
+              <Link to="/contact" className="header__link">Contact</Link>
+          </nav>
+
+          <Routes>
+            <Route path="/" element={<Index/>}></Route>
+            <Route path="/about" element={<About/>}></Route>
+            <Route path="/contact" element={<Contact/>}></Route>
+          </Routes>
+
+        </div>
+
       </Suspense>
-    </div>
-
-    //  <nav>
-    //      <ul id="navigation">
-    //         <Link to="/">Home</Link>
-    //         <Link to="/about">About</Link>
-    //         <Link to="/contact">Contact</Link>
-    //      </ul>
-    //  </nav>
-
-    //  <div className="app-content">
-    //   <Routes>
-    //     <Route path="/" element={<Home/>}></Route>
-    //     <Route path="/about" element={<About/>}></Route>
-    //     <Route path="/contact" element={<Contact/>}></Route>
-    //   </Routes>
-    //  </div>
 
   );
 }

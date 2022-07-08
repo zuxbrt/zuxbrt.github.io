@@ -1,0 +1,36 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+.app__content{
+    width: 100%;
+    // height: calc(100vh - 50px);
+    background-color: black;
+    padding-top: 50px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.page__wrapper{
+    display: block;
+    width: 100%;
+    height: calc(100vh - 68px);
+}
+
+#navigation{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 50px;
+    background: white;
+    width: 100%;
+    padding: 0 24px;
+    
+    a.header__link{
+        color: black;
+        text-decoration: none;
+        margin: 0 12px;
+        line-height: 50px;
+    }
+}
