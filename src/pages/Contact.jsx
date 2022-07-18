@@ -1,7 +1,8 @@
+import ContactElement from "../components/ContactElement/ContactElement"
 
 const Contact = () => {
     return (
-        <h1>Contact</h1>
+        <ContactElement />
     );
 }
 

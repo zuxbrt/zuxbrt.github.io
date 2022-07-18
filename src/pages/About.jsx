@@ -1,7 +1,8 @@
+import AboutElement from "../components/AboutElement/AboutElement"
 
 const About = () => {
     return (
-        <h1>About</h1>
+        <AboutElement />
     );
 }
 

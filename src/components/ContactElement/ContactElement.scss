@@ -1,0 +1,31 @@
+.contact__container{
+    position: relative;
+    min-height: 100vh;
+
+    .contact__links{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        transform: translate(-50%,-50%);
+        position: absolute;
+        top: 42%;
+        left: 50%;
+
+        a{
+            width: 200px;
+            height: 45px;
+            color: white;
+            text-decoration: none;
+
+            line-height: 45px;
+            border: 1px solid white;
+
+            text-align: center;
+
+            margin: 6px;
+        }
+    }
+
+    
+}
