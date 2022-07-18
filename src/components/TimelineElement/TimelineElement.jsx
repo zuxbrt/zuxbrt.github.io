@@ -15,7 +15,7 @@ const TimelineElement = (props) => {
                     <p className='date'>2018.</p>
                 </div>  
                 <div className='point__text'>
-                    <p>Started working - First expirience with Symfony framework and PHP MVC arhitecture.</p>
+                    <p>Started working - First experience with Symfony framework and PHP MVC arhitecture.</p>
                     <p>Writing / testing / improving API's in PHP for mobile based apps and Admin Consoles for the same.</p>
                 </div>
             </div>
