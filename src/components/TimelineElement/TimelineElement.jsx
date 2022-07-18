@@ -29,7 +29,7 @@ const TimelineElement = (props) => {
                 </div>  
                 <div className='point__text'>
                     <p>Getting familiar with Laravel. Worked on few projects which were related to eLearning industry.</p>
-                    <p>Learned Vue.js, integrated it into Websites with laravel.</p>
+                    <p>Learned Vue.js, integrated it into apps made with Laravel.</p>
                     <p>Learned three.js.</p>
                 </div>
             </div>
@@ -44,7 +44,7 @@ const TimelineElement = (props) => {
                 <div className='point__text'>
                     <p>Learned Node.js, React.js, Next.js</p>
                     <p>Learned three.js - Worked on a web application which was using concept of virtual exhibitions.</p>
-                    <p>Creating Admin Dashboards with API's, Websites with custom CMS preferences...</p>
+                    <p>Development of solutions with admin dashboards with API's, websites with custom CMS preferences and other custom web solutions</p>
                 </div>
             </div>
 
