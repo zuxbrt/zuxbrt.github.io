@@ -28,7 +28,7 @@ const IntroElement = (props) => {
 
           <div className='column languages-card'>
 
-            <p className='title'>Languages I'm expirienced at:</p>
+            <p className='title'>Languages I'm experienced at:</p>
 
             <div className='languages__row'>
               <a className='lang__icon php' href="https://github.com/zuxbrt?tab=repositories&q=&type=&language=php" target='_blank' rel='noreferrer' title='PHP repos'>PHP</a>
