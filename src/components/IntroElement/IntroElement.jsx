@@ -51,7 +51,7 @@ const IntroElement = (props) => {
       </div>
       
       <div className='frameworks__wrapper'>
-        <p className='headline'>Frameworks I've worked with:</p>
+        <p className='headline'>Frameworks/Libraries I've worked with:</p>
 
         <div className='frameworks__row'>
           <a className='single-framework' href='https://symfony.com/'>Symfony</a>
