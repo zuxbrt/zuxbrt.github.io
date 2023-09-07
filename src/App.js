@@ -33,32 +33,32 @@ function Box() {
         <boxGeometry/>
         <meshStandardMaterial wireframe={true} {...textureProps} displacementScale={0.01} displacementBias={0.01} />
         <Outlines thickness={0.05} color="#eee" />
-        <Html occlude distanceFactor={1.5} position={[0, 0, 0.51]} transform>
+        <Html occlude distanceFactor={1.5} position={[0, 0, 0.51]} transform center>
           <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
             <span style={{color: '#eee'}}>Hi, I'm Zulfo.</span>
             <span style={{color: '#eee'}}>Full Stack Web Developer.</span>
           </div>
         </Html>
-        <Html occlude distanceFactor={1.5} position={[0.51, 0, 0]} rotation={[0, degree_to_rad(180), 0]} transform>
+        <Html occlude distanceFactor={1.5} position={[0.51, 0, 0]} rotation={[0, degree_to_rad(180), 0]} transform center>
           <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
             <span style={{color: '#eee'}}>Tech Stack:</span>
             <span style={{color: '#eee'}}>Laravel (PHP), Vue.js, MySQL.</span>
           </div>
         </Html>
-        <Html occlude distanceFactor={1.5} position={[0, 0.51, 0]} rotation={[degree_to_rad(-180), 0, 0]} transform>
+        <Html occlude distanceFactor={1.5} position={[0, 0.51, 0]} rotation={[degree_to_rad(-180), 0, 0]} transform center>
           <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
             <span style={{color: '#eee', textAlign: 'center'}}>Hobbies:</span>
             <span style={{color: '#eee'}}>Hiking, Cycling, Gaming,</span>
             <span style={{color: '#eee', textAlign: 'center'}}>Music</span>
           </div>
         </Html>
-        <Html occlude distanceFactor={1.5} position={[-0.51, 0, 0]} rotation={[0, degree_to_rad(-180), 0]} transform>
+        <Html occlude distanceFactor={1.5} position={[-0.51, 0, 0]} rotation={[0, degree_to_rad(-180), 0]} transform center>
           <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
             <span style={{color: '#eee', textAlign: 'center'}}>Experience:</span>
             <span style={{color: '#eee'}}>Since <strong>2019.</strong></span>
           </div>
         </Html>
-        <Html occlude distanceFactor={1.5} position={[0, 0, -0.51]} rotation={[0, degree_to_rad(-360), 0]} transform>
+        <Html occlude distanceFactor={1.5} position={[0, 0, -0.51]} rotation={[0, degree_to_rad(-360), 0]} transform center>
           <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
             <span style={{color: '#eee', textAlign: 'center'}}>Contact:</span>
             <a style={{color: '#212121', textDecoration: 'none', background: '#eee', padding: '4px 8px', borderRadius: '8px', marginTop: '8px'}} href='mailto:zmuhovic97@gmail.com' target='_blank'>Send me a mail</a>
@@ -72,7 +72,7 @@ function Box() {
 
 function App() {
   return (
-    <Canvas camera={{ position: [2, 1, 5], fov: 25 }}>
+    <Canvas camera={{ position: [2, 1, 5], fov: 30 }}>
       <Suspense fallback={null}>
         <Sky distance={450000} sunPosition={[0, 5, 0]} rayleigh={3} elevation={2} inclination={0} azimuth={180} />
         <ambientLight intensity={0.5} />
