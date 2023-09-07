@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Route, Link, Routes, NavLink } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 
 import './App.scss';
 import About from "./pages/About";
