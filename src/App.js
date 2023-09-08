@@ -1,87 +1,229 @@
 // import { Route, Routes, NavLink } from "react-router-dom";
 import './App.scss';
-import { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState, useTransition } from 'react'
 import { Canvas, useLoader, useThree } from '@react-three/fiber'
-import { Html, MeshWobbleMaterial, OrbitControls, Outlines, Sky, useTexture } from '@react-three/drei'
+import { AccumulativeShadows, CycleRaycast, Environment, Html, Loader, MeshWobbleMaterial, OrbitControls, Outlines, RandomizedLight, Sky, Text, useTexture } from '@react-three/drei'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import { useControls } from 'leva'
+import { useTrail, a } from '@react-spring/web';
+import { useSpring, animated } from "@react-spring/three";
+import { Color } from 'three';
 
-function Box() {
-  const [size, set] = useState(0.5)
-  const controls = useThree((state) => state.controls)
+import trailstyles from './trailstyles.module.css';
+
+function Env() {
+  const [preset, setPreset] = useState('dawn')
+  const [inTransition, startTransition] = useTransition()
+
+  useEffect(() => {
+    const setEnvPreset = () => {
+      const now = new Date();
+      const hours = now.getHours();
+  
+      if(hours >= 5 && hours <= 10){
+        startTransition(() => setPreset('dawn'))
+      }
+      if(hours > 10 && hours <= 18){
+        startTransition(() => setPreset('warehouse'))
+      }
+      if(hours > 18 && hours <= 20){
+        startTransition(() => setPreset('sunset'))
+      }
+      if(hours > 20 && hours < 6){
+        startTransition(() => setPreset('night'))
+      }
+
+    }
+
+    setEnvPreset()
+
+  }, []);
+
+  return <Environment preset={preset} background blur={1} />
+}
+
+function InteractiveBox() {
+  const mesh = useRef(null)
+  const [hovered, setHovered] = useState(null)
 
   const degree_to_rad = (degrees) => {
     return 2 * Math.PI * (degrees / 360) / 2;
   }
 
+  // https://coolors.co/palette/f8f9fa-e9ecef-dee2e6-ced4da-adb5bd-6c757d-495057-343a40-212529
+  const box_side_colors = {
+    0: '#ced4da',
+    1: '#adb5bd',
+    2: '#6c757d',
+    3: '#495057',
+    4: '#343a40',
+    5: '#212529'
+  }
+
   // https://docs.pmnd.rs/react-three-fiber/tutorials/loading-textures
 
   const textureProps = useTexture({
-    map: 'textures/Metal/Metal027_1K-JPG_Color.jpg',
-    displacementMap: 'textures/Metal/Metal027_1K-JPG_Displacement.jpg',
-    normalMap:'textures/Metal/Metal027_1K-JPG_NormalGL.jpg',
-    roughnessMap: 'textures/Metal/Metal027_1K-JPG_Roughness.jpg',
+    // map: 'textures/Metal/Metal027_1K-JPG_Color.jpg',
+    // displacementMap: 'textures/Metal/Metal027_1K-JPG_Displacement.jpg',
+    // normalMap:'textures/Metal/Metal027_1K-JPG_NormalGL.jpg',
+    // roughnessMap: 'textures/Metal/Metal027_1K-JPG_Roughness.jpg',
     // aoMap: 'textures/Metal/Metal027_1K-JPG_Color.jpg',
   })
 
+  const setDefaultColor = (index) => {
+    return box_side_colors[index]
+  }
+
+  const resetBoxColors = () => {
+    setHovered(null)
+    for (let i = 0; i < mesh.current.material.length; i++) {
+      console.log(mesh.current.material[i].defaultColor)
+      mesh.current.material[i].color = new Color(mesh.current.material[i].defaultColor)
+    }
+  }
+
+  // IMPLEMENT https://codesandbox.io/s/react-spring-forked-6qgre?file=/src/App.js:260-329
+  const get_side_color_on_hover = (index) => {   
+    if(index == hovered){
+      return '#ef233c'
+    } else {
+      return box_side_colors[index]
+    }
+  }
+
+  const handleBoxClick = (event) => {
+    console.clear()
+    console.log(event.face.materialIndex)
+    switch (event.face.materialIndex) {
+      case 0:
+        // do something 
+        break;
+
+      case 1:
+        // do something 
+        break;
+
+      case 2:
+        // do something 
+        break;
+
+      case 3:
+        // do something 
+        break;
+
+      case 4:
+        // do something 
+        break;
+    
+      case 5:
+        // do something 
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   return (
     <>
-      <mesh scale={0.4}>
+      <mesh scale={0.2}>
         <icosahedronGeometry />
-        <MeshWobbleMaterial color={0x000} wireframe={true}/>
+        <MeshWobbleMaterial 
+          color={0x000} 
+          wireframe={true}
+          factor={5} speed={1}
+          />
       </mesh>
-      <mesh scale={size * 2}>
-        <boxGeometry/>
-        <meshStandardMaterial wireframe={true} {...textureProps} displacementScale={0.01} displacementBias={0.01} />
-        <Outlines thickness={0.05} color="#eee" />
-        <Html occlude distanceFactor={1.5} position={[0, 0, 0.51]} transform center>
-          <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
-            <span style={{color: '#eee'}}>Hi, I'm Zulfo.</span>
-            <span style={{color: '#eee'}}>Full Stack Web Developer.</span>
-          </div>
-        </Html>
-        <Html occlude distanceFactor={1.5} position={[0.51, 0, 0]} rotation={[0, degree_to_rad(180), 0]} transform center>
-          <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
-            <span style={{color: '#eee'}}>Tech Stack:</span>
-            <span style={{color: '#eee'}}>Laravel (PHP), Vue.js, MySQL.</span>
-          </div>
-        </Html>
-        <Html occlude distanceFactor={1.5} position={[0, 0.51, 0]} rotation={[degree_to_rad(-180), 0, 0]} transform center>
-          <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
-            <span style={{color: '#eee', textAlign: 'center'}}>Hobbies:</span>
-            <span style={{color: '#eee'}}>Hiking, Cycling, Gaming,</span>
-            <span style={{color: '#eee', textAlign: 'center'}}>Music</span>
-          </div>
-        </Html>
-        <Html occlude distanceFactor={1.5} position={[-0.51, 0, 0]} rotation={[0, degree_to_rad(-180), 0]} transform center>
-          <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
-            <span style={{color: '#eee', textAlign: 'center'}}>Experience:</span>
-            <span style={{color: '#eee'}}>Since <strong>2019.</strong></span>
-          </div>
-        </Html>
-        <Html occlude distanceFactor={1.5} position={[0, 0, -0.51]} rotation={[0, degree_to_rad(-360), 0]} transform center>
-          <div style={{display: 'flex', flexDirection: 'column', userSelect: 'none', backgroundColor: "#212121", padding: '12px 6px'}}>
-            <span style={{color: '#eee', textAlign: 'center'}}>Contact:</span>
-            <a style={{color: '#212121', textDecoration: 'none', background: '#eee', padding: '4px 8px', borderRadius: '8px', marginTop: '8px'}} href='mailto:zmuhovic97@gmail.com' target='_blank'>Send me a mail</a>
-          </div>
-        </Html>
+      <mesh
+        ref={mesh}
+        castShadow
+        scale={1}
+        onClick={handleBoxClick}
+        onPointerOut={resetBoxColors}
+        onPointerMove={(e) => setHovered(e.face.materialIndex)}>
+
+          {[...Array(6)].map((_, index) => (
+            <meshStandardMaterial 
+              transparent={true}
+              opacity={0.9} 
+              wireframe={false} 
+              attach={`material-${index}`} 
+              key={index} 
+              defaultColor={setDefaultColor(index)}
+              color={get_side_color_on_hover(index)} 
+              metalness={0} roughness={1}
+            ></meshStandardMaterial>
+          ))}
+
+          <boxGeometry/>
+         
       </mesh>
     </>
     
   )
 }
 
-function App() {
+const IntroTextTrail = ({ open, children }) => {
+  const items = React.Children.toArray(children)
+  const trail = useTrail(items.length, {
+    config: { mass: 5, tension: 2000, friction: 200 },
+    opacity: open ? 1 : 0,
+    x: open ? 0 : 20,
+    height: open ? 110 : 0,
+    from: { opacity: 0, x: 20, height: 0 },
+  })
   return (
-    <Canvas camera={{ position: [2, 1, 5], fov: 30 }}>
-      <Suspense fallback={null}>
-        <Sky distance={450000} sunPosition={[0, 5, 0]} rayleigh={3} elevation={2} inclination={0} azimuth={180} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[2, 2, 5]} />
-        <pointLight position={[-2, -2, -5]} />
-        <Box />
-      <OrbitControls makeDefault />
-      </Suspense>
-    </Canvas>
+    <div>
+      {trail.map(({ height, ...style }, index) => (
+        <a.div key={index} className={trailstyles.trailsText} style={style}>
+          <a.div style={{ height }}>{items[index]}</a.div>
+        </a.div>
+      ))}
+    </div>
+  )
+}
+
+function App() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <Canvas camera={{ position: [2, 1, 5], fov: 30 }}>
+
+        <Suspense fallback={null}>
+
+          <group position={[0, 0.01, 0]}>
+            <InteractiveBox/>
+
+            <AccumulativeShadows temporal frames={200} color="purple" colorBlend={0.5} opacity={1} scale={10} alphaTest={0.85}>
+              <RandomizedLight amount={8} radius={5} ambient={0.5} position={[5, 3, 2]} bias={0.001} />
+            </AccumulativeShadows>
+          </group>
+
+          {/* <group position={[0, 0.01, 0]}>
+            <Html as='div' className={trailstyles.container} onClick={() => setOpen(state => !state)}>
+              <IntroTextTrail open={open}>
+                <span>Hi</span>
+                <span>I'm</span>
+                <span>Zulfo,</span>
+                <span>Full Stack Web Developer</span>
+              </IntroTextTrail>
+            </Html>
+          </group> */}
+
+          <OrbitControls makeDefault enableDamping={false} enablePan={false} enableZoom={false} />
+
+          <Env />
+
+        </Suspense>
+
+      </Canvas>
+
+      <Loader 
+        dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`} // Text
+      />
+    </>
+    
   )
 }
 
