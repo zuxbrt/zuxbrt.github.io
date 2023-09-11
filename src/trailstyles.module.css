@@ -1,25 +1,133 @@
 .trailsText {
-    position: relative;
-    width: 100%;
-    height: 80px;
-    line-height: 80px;
-    color: black;
-    font-size: 6em;
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    will-change: transform, opacity;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+  line-height: 80px;
+  color: black;
+  font-size: 5em;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.trailsText > div {
+  padding-right: 0.05em;
+  overflow: hidden;
+
+  /* height: 100% !important; */
+  line-height: calc(100%);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* justify-content: flex-start; */
+  align-items: center;
+  width: 80vw;
+  height: 100%;
+  padding: 12px 24px;
+  margin: auto;
+  user-select: none;
+  
+  background: rgba(255,255,255, 0.5);
+}
+
+
+.regularTextWrapper {
+  position: relative;
+  width: 100%;
+  color: black;
+  letter-spacing: -0.05em;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.regularText, .smallText{
+  position: relative;
+  width: 100%;
+  color: black;
+  letter-spacing: -0.05em;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.regularText{
+  font-size: 1.8em;
+  line-height: 1.5em;
+  font-weight: 600;
+}
+
+.smallText{
+  font-size: 1.6em;
+  line-height: 1.8em;
+  margin-bottom: 14px;
+  font-weight: 400;
+}
+
+.linkToMail{
+  color: white;
+  font-weight: 500;
+  font-size: 1.6em;
+  line-height: 1.8em;
+  text-decoration: none;
+  background: #212121;
+  padding: 0 24px;
+  border-radius: 8px;
+
+  height: 50px;
+
+  position: relative;
+  letter-spacing: -0.05em;
+  will-change: transform, opacity;
+  overflow: hidden;
+
+  margin-left: 0;
+  margin-right: auto;
+  margin-top: 14px;
+}
+
+.breakPoint{
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+@media  (max-width: 1150px) {
+
+  .trailsText > div{
+    font-size: 0.8em !important;
+    height: auto !important;
+  }
+}
+
+@media  (max-width: 650px) {
+
+  .trailsText{
+    min-height: auto;
+  }
+
+  .trailsText > div{
+    font-size: 0.5em !important;
+    font-weight: 600;
+    height: auto !important;
+  }
+
+  .regularText{
+    font-size: 1.4em;
+    line-height: 1.5em;
+    font-weight: 600;
   }
   
-  .trailsText > div {
-    padding-right: 0.05em;
-    overflow: hidden;
+  .smallText{
+    font-size: 1.2em;
+    line-height: 1.8em;
+    margin-bottom: 14px;
+    font-weight: 400;
   }
-  
-  .container {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
+
+  .linkToMail{
+    width: 86%;
+    text-align: center;
   }
-  
+}
