@@ -26,10 +26,11 @@
   /* justify-content: flex-start; */
   align-items: center;
   width: 80vw;
-  height: 100%;
-  padding: 12px 24px;
+  height: 90%;
+  padding: 24px;
   margin: auto;
   user-select: none;
+  border-radius: 4px;
   
   background: rgba(255,255,255, 0.5);
 }
@@ -70,22 +71,34 @@
   color: white;
   font-weight: 500;
   font-size: 1.6em;
-  line-height: 1.8em;
+  /* line-height: 1.8em; */
   text-decoration: none;
   background: #212121;
   padding: 0 24px;
   border-radius: 8px;
 
   height: 50px;
+  line-height: 45px;
+  text-align: center;
 
   position: relative;
   letter-spacing: -0.05em;
   will-change: transform, opacity;
   overflow: hidden;
+  min-width: 200px;
 
   margin-left: 0;
   margin-right: auto;
   margin-top: 14px;
+
+  transition: all .3s ease;
+  border: 1px solid transparent;
+}
+
+.linkToMail:hover{
+  background: transparent;
+  color: #212121;
+  border-color: #212121;
 }
 
 .breakPoint{

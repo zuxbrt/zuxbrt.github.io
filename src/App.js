@@ -286,21 +286,17 @@ function App() {
               }}
               >
               <TextTrail open={open}>
-                <span>Hi.</span>
-                <span>I'm Zulfo,</span>
+                <span>Hi. I'm Zulfo,</span>
                 <span>Full Stack Web Developer</span>
                 <br className='breakPoint'/>
-                <div className={trailstyles.regularText}>Tech stack:</div>
-                <div className={trailstyles.smallText}>Laravel (PHP), Vue.js, MySQL.</div>
+                <div className={trailstyles.regularText}>I have extensive experience in software design, specializing in both Frontend and API's.</div>
+                <div className={trailstyles.smallText}>I've been mostly using <strong>Laravel</strong>, <strong>MySQL</strong>, <strong>Vue</strong>, <strong>React</strong>. Learning <strong>.NET</strong>, <strong>SQL</strong>, and <strong>Angular</strong>.</div>
                 <br className='breakPoint'/>
                 <div className={trailstyles.regularText}>Experience:</div>
-                <div className={trailstyles.smallText}>Since <strong>2019.</strong></div>
+                <div className={trailstyles.smallText}>Started working <strong>2019.</strong>. Worked on Microservices, Web apps, API's, integrations of 3rd party API's, and digital solutions. </div>
                 <br className='breakPoint'/>
-                <div className={trailstyles.regularText}>Hobbies:</div>
-                <div className={trailstyles.smallText}>Hiking, Cycling, Gaming, Music.</div>
                 <br className='breakPoint'/>
-                <div className={trailstyles.regularText}>Contact:</div>
-                <a className={trailstyles.linkToMail} href='mailto:zmuhovic97@gmail.com' target='_blank' rel='noopener'>Send me a mail</a>
+                <a className={trailstyles.linkToMail} href='mailto:zmuhovic97@gmail.com' target='_blank' rel='noopener'>Let's connect</a>
               </TextTrail>
 
             </Html>
