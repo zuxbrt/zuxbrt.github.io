@@ -14,6 +14,10 @@ import { Bloom, DepthOfField, EffectComposer, Noise, Vignette } from '@react-thr
 import trailstyles from './trailstyles.module.css';
 import { lerp } from 'three/src/math/MathUtils';
 
+import linkedinimg from '../src/assets/linkedin.png';
+import mailimg from '../src/assets/mail.png';
+import githubimg from '../src/assets/github.png';
+
 function Env() {
   const [preset, setPreset] = useState('dawn')
   const [inTransition, startTransition] = useTransition()
@@ -199,7 +203,7 @@ const TextTrail = ({ open, children }) => {
     config: { mass: 5, tension: 2000, friction: 200 },
     opacity: open ? 1 : 0,
     x: open ? 0 : 20,
-    height: open ? 110 : 0,
+    height: open ? 80 : 0,
     from: { opacity: 0, x: 20, height: 0 },
   })
 
@@ -287,16 +291,22 @@ function App() {
               >
               <TextTrail open={open}>
                 <span>Hi. I'm Zulfo,</span>
-                <span>Full Stack Web Developer</span>
-                <br className='breakPoint'/>
-                <div className={trailstyles.regularText}>I have extensive experience in software design, specializing in both Frontend and API's.</div>
-                <div className={trailstyles.smallText}>I've been mostly using <strong>Laravel</strong>, <strong>MySQL</strong>, <strong>Vue</strong>, <strong>React</strong>. Learning <strong>.NET</strong>, <strong>SQL</strong>, and <strong>Angular</strong>.</div>
-                <br className='breakPoint'/>
-                <div className={trailstyles.regularText}>Experience:</div>
-                <div className={trailstyles.smallText}>Started working <strong>2019.</strong>. Worked on Microservices, Web apps, API's, integrations of 3rd party API's, and digital solutions. </div>
+                <span>Full Stack Developer.</span>
                 <br className='breakPoint'/>
                 <br className='breakPoint'/>
-                <a className={trailstyles.linkToMail} href='mailto:zmuhovic97@gmail.com' target='_blank' rel='noopener'>Let's connect</a>
+                <br className='breakPoint'/>
+                <div className={trailstyles.regularText}>Experienced in software design, specialized in both Frontend and Backend.</div>
+                <br className='breakPoint'/>
+                <div className={trailstyles.smallText}>Building scalable web apps since 2019.</div>
+                <br className='breakPoint'/>
+                <br className='breakPoint'/>
+                <br className='breakPoint'/>
+                <div className={trailstyles.row}>
+                  <a className={trailstyles.link} href='https://www.github.com/zuxbrt' target='_blank' rel='noopener'><img src={githubimg} /></a>
+                  <a className={trailstyles.link} href='mailto:zmuhovic97@gmail.com' target='_blank' rel='noopener'><img src={mailimg} /></a>
+                  <a className={trailstyles.link} href='https://www.linkedin.com/in/zulfo-muhovi%C4%87-507889132/' target='_blank' rel='noopener'><img src={linkedinimg} /></a>
+                </div>
+                
               </TextTrail>
 
             </Html>

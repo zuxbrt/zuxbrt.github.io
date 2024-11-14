@@ -1,14 +1,22 @@
 .trailsText {
   position: relative;
   width: 100%;
-  min-height: 80px;
-  line-height: 80px;
+  min-height: 50px;
+  line-height: 50px;
   color: black;
-  font-size: 5em;
-  font-weight: 800;
+  font-size: 4em;
+  font-weight: 700;
   letter-spacing: -0.05em;
   will-change: transform, opacity;
   overflow: hidden;
+  text-align: center;
+
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .trailsText > div {
@@ -52,6 +60,7 @@
   letter-spacing: -0.05em;
   will-change: transform, opacity;
   overflow: hidden;
+  text-align: center;
 }
 
 .regularText{
@@ -67,38 +76,40 @@
   font-weight: 400;
 }
 
-.linkToMail{
+.link{
   color: white;
-  font-weight: 500;
-  font-size: 1.6em;
-  /* line-height: 1.8em; */
-  text-decoration: none;
-  background: #212121;
-  padding: 0 24px;
-  border-radius: 8px;
+  border: 1px solid transparent;
 
-  height: 50px;
-  line-height: 45px;
+  margin: 0 18px 8px 0;
+  padding: 4px 8px;
+
+  height: 40px;
+  width: auto;
   text-align: center;
 
   position: relative;
-  letter-spacing: -0.05em;
   will-change: transform, opacity;
   overflow: hidden;
-  min-width: 200px;
-
-  margin-left: 0;
-  margin-right: auto;
-  margin-top: 14px;
 
   transition: all .3s ease;
   border: 1px solid transparent;
+  border-radius: 8px;
 }
 
-.linkToMail:hover{
-  background: transparent;
-  color: #212121;
+.link > img {
+  display: block;
+  width: auto;
+  height: 100%;
+  transition: all .3s ease;
+}
+
+.link:hover{
+  /* color: #212121; */
   border-color: #212121;
+}
+
+.link:hover > img {
+  transform: scale(1.1);
 }
 
 .breakPoint{
