@@ -302,9 +302,9 @@ function App() {
                 <br className='breakPoint'/>
                 <br className='breakPoint'/>
                 <div className={trailstyles.row}>
-                  <a className={trailstyles.link} href='https://www.github.com/zuxbrt' target='_blank' rel='noopener'><img src={githubimg} /></a>
-                  <a className={trailstyles.link} href='mailto:zmuhovic97@gmail.com' target='_blank' rel='noopener'><img src={mailimg} /></a>
-                  <a className={trailstyles.link} href='https://www.linkedin.com/in/zulfo-muhovi%C4%87-507889132/' target='_blank' rel='noopener'><img src={linkedinimg} /></a>
+                  <a className={trailstyles.link} href='https://www.github.com/zuxbrt' target='_blank' rel="noreferrer"><img src={githubimg} /></a>
+                  <a className={trailstyles.link} href='mailto:zmuhovic97@gmail.com' target='_blank' rel="noreferrer"><img src={mailimg} /></a>
+                  <a className={trailstyles.link} href='https://www.linkedin.com/in/zulfo-muhovi%C4%87-507889132/' target='_blank' rel="noreferrer"><img src={linkedinimg} /></a>
                 </div>
                 
               </TextTrail>
