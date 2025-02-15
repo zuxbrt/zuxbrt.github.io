@@ -1,0 +1,91 @@
+.container {
+    width: calc(100% - 2px);
+    height: calc(100vh - 26px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 2rem;
+    color: white;
+    // background: linear-gradient(45deg, #040D12, #183D3D, #5C8374, #93B1A6);
+    background-size: 400% 400%;
+    // animation: gradientLoop 16s infinite ease-in-out;
+
+    border: 1px solid white;
+    border-radius: 1px;
+
+    @keyframes gradientLoop {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+}
+
+.start-point {
+
+    .start {
+        text-align: center;
+
+        .word-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+          }
+          
+        .word {
+            transition: transform 1s, opacity 1s;  /* Transition for both transform and opacity */
+        }
+
+        .cursor {
+            font-weight: 300;
+            color: white;
+            animation: blink 0.8s step-start infinite;  /* Blinking effect */
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 16px;
+
+        .action {
+            display: block;
+            border-radius: 8px;
+            border: 1px solid white;
+            min-width: 235px;
+
+            cursor: pointer;
+
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.8em;
+            padding: 8px 14px;
+            margin: 0 8px;
+            font-weight: 300;
+            text-align: center;
+
+            transition: all 0.3s ease;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

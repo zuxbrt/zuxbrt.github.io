@@ -1,0 +1,21 @@
+<div class="container" [@backgroundAnimation]="bgState">
+
+    <div class="start-point">
+        <div ngClass="start" [@fadeInText] *ngIf="showText" class="text">
+            <span class="word-container">
+                Hi, I'm Zulfo,&nbsp;
+                <span class="word">
+                    {{ currentText }}<span class="cursor">|</span>&nbsp;
+                </span>
+                Full Stack Developer.
+            </span>
+        </div>
+
+        <div class="actions">
+            <div class="action" (mouseenter)="changeColor(2)" (mouseleave)="changeColor(1)">about</div>
+            <div class="action" (mouseenter)="changeColor(3)" (mouseleave)="changeColor(1)">case study</div>
+            <div class="action" (mouseenter)="changeColor(4)" (mouseleave)="changeColor(1)">contact</div>
+        </div>
+    </div>
+
+</div>
