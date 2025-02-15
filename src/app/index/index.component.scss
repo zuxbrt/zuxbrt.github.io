@@ -1,6 +1,5 @@
 .container {
-    width: calc(100% - 2px);
-    height: calc(100vh - 26px);
+    height: calc(100vh - 10px);
 
     display: flex;
     align-items: center;
@@ -12,8 +11,8 @@
     background-size: 400% 400%;
     // animation: gradientLoop 16s infinite ease-in-out;
 
-    border: 1px solid white;
-    border-radius: 1px;
+    border: 1px solid transparent;
+    // border-radius: 8px;
 
     @keyframes gradientLoop {
         0% {
@@ -68,7 +67,7 @@
         .action {
             display: block;
             border-radius: 8px;
-            border: 1px solid white;
+            border: 2px solid white;
             min-width: 235px;
 
             cursor: pointer;
@@ -81,11 +80,68 @@
             font-weight: 300;
             text-align: center;
 
-            transition: all 0.3s ease;
+            margin-bottom: 16px;
+
+            transition: all 0.5s ease;
 
             &:hover {
                 cursor: pointer;
             }
+
+            &.about{
+                border-color: var(--color2);
+
+                &:hover{
+                    background-color: var(--color2);
+                    color: var(--color1);
+                }
+            }
+
+            &.casestudy{
+                border-color: var(--color3);
+
+                &:hover{
+                    background-color: var(--color3);
+                    color: var(--color1);
+                }
+            }
+
+            &.contact{
+                border-color: var(--color4);
+
+                &:hover{
+                    background-color: var(--color4);
+                    color: var(--color1);
+                }
+            }
         }
+    }
+
+}
+
+.reset{
+    margin-top: 16px;
+    text-align: center;
+    border: 1px solid white;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+    text-transform: uppercase;
+
+    font-size: 0.8em;
+    padding: 8px 14px;
+
+    font-weight: 300;
+    text-align: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+
+    transition: all 0.5s ease;
+
+    &:hover{
+        background: white;
+        color: var(--color1);
     }
 }

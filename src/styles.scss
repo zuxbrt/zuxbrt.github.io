@@ -1,8 +1,17 @@
+
 body{
     font-family: 'Raleway', sans-serif ;
     margin: 0;
     padding: 0;
-    padding: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 
     transition: background-color 1s ease-in-out;
+}
+
+:root {
+    --color1: #08090A;
+    --color2: #A5AE9E;
+    --color3: #8A817C;
+    --color4: #BCB8B1;
 }

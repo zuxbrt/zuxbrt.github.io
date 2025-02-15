@@ -27,16 +27,16 @@ export class AppComponent implements OnInit {
   updateBackgroundColor(color: string){
     switch (color) {
       case 'color1':
-        document.body.style.backgroundColor = '#040303';
+        document.body.style.backgroundColor = 'var(--color1)';
         break;
       case 'color2':
-        document.body.style.backgroundColor = '#2A3335';
+        document.body.style.backgroundColor = 'var(--color2)';
         break;
       case 'color3':
-        document.body.style.backgroundColor = '#021526';
+        document.body.style.backgroundColor = 'var(--color3)';
         break;
       case 'color4':
-        document.body.style.backgroundColor = '#092635';
+        document.body.style.backgroundColor = 'var(--color4)';
         break;
     
       default:

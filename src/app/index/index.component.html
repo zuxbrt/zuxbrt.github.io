@@ -1,7 +1,11 @@
 <div class="container" [@backgroundAnimation]="bgState">
 
-    <div class="start-point">
-        <div ngClass="start" [@fadeInText] *ngIf="showText" class="text">
+    <div class="start-point" *ngIf="this.isAboutVisible && this.isContactVisible && this.isCaseStudyVisible">
+        <div 
+            ngClass="start" 
+            [@fadeInText] 
+            *ngIf="showText" 
+            class="text">
             <span class="word-container">
                 Hi, I'm Zulfo,&nbsp;
                 <span class="word">
@@ -12,10 +16,39 @@
         </div>
 
         <div class="actions">
-            <div class="action" (mouseenter)="changeColor(2)" (mouseleave)="changeColor(1)">about</div>
-            <div class="action" (mouseenter)="changeColor(3)" (mouseleave)="changeColor(1)">case study</div>
-            <div class="action" (mouseenter)="changeColor(4)" (mouseleave)="changeColor(1)">contact</div>
+
+            <div class="action about" 
+                *ngIf="isAboutVisible"
+                [@foldButton]="isAboutFolded ? 'folded' : 'visible'" 
+                (mouseenter)="changeColor(2)"
+                (mouseleave)="changeColor(1)"
+                (click)="setSection('about')">
+                about
+            </div>
+
+            <div class="action casestudy"
+                *ngIf="isCaseStudyVisible"
+                [@foldButton]="isCaseStudyFolded ? 'folded' : 'visible'"
+                (mouseenter)="changeColor(3)" 
+                (mouseleave)="changeColor(1)"
+                (click)="setSection('casestudy')">
+                case study
+            </div>
+
+            <div class="action contact"
+                *ngIf="isContactVisible"
+                [@foldButton]="isContactFolded ? 'folded' : 'visible'"
+                (mouseenter)="changeColor(4)" 
+                (mouseleave)="changeColor(1)"
+                (click)="setSection('contact')">
+                contact
+            </div>
         </div>
+
     </div>
+
+    <div class="reset"
+        *ngIf="!this.isAboutVisible || !this.isContactVisible || !this.isCaseStudyVisible"
+        (click)="resetSections()">back</div>
 
 </div>
