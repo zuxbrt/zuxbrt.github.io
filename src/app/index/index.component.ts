@@ -10,13 +10,13 @@ import { StateService } from '../../services/state.service';
   styleUrl: './index.component.scss',
   animations: [
 
-    trigger('backgroundAnimation', [
-      state('color1', style({ backgroundColor: 'var(--color1)' })), // 
-      state('color2', style({ backgroundColor: 'var(--color2)' })), // 
-      state('color3', style({ backgroundColor: 'var(--color3)' })), // 
-      state('color4', style({ backgroundColor: 'var(--color4)' })), // 
-      transition('* => *', animate('1s ease-in-out'))
-    ]),
+    // trigger('backgroundAnimation', [
+    //   state('color1', style({ backgroundColor: 'var(--color1)' })), // 
+    //   state('color2', style({ backgroundColor: 'var(--color2)' })), // 
+    //   state('color3', style({ backgroundColor: 'var(--color3)' })), // 
+    //   state('color4', style({ backgroundColor: 'var(--color4)' })), // 
+    //   transition('* => *', animate('1s ease-in-out'))
+    // ]),
 
     trigger('fadeInText', [
       transition(':enter', [
@@ -73,12 +73,11 @@ export class IndexComponent implements OnInit, OnDestroy {
   constructor(private stateService: StateService) {}
 
   ngOnInit(): void {
-    this.bgState = 'color1';
+    // this.bgState = 'color1';
     this.showText = true;
     this.stateService.appState$.subscribe((appState) => {
       this.appState = appState;
     });
-    this.stateService.updateAppState({backgroundColor: this.bgState});
     this.startTyping();
   }
 
@@ -134,7 +133,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   changeColor(num: number){
     // this.bgState = `color${num}`;
-    this.stateService.updateAppState({backgroundColor: `color${num}`});
+    // this.stateService.updateAppState({backgroundColor: `color${num}`});
   }
   
   setSection(section: string){
@@ -151,6 +150,9 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.isCaseStudyVisible = false;
       this.isAboutVisible = false;
     },500);
+
+    this.stateService.updateAppState({currentSection: section});
+
 
     switch (section) {
       case 'about':
@@ -178,6 +180,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       if(!this.isCaseStudyVisible) this.isCaseStudyVisible = true;
       if(!this.isContactVisible) this.isContactVisible = true;
       if(!this.isAboutVisible) this.isAboutVisible = true;
+      this.stateService.updateAppState({currentSection: null});
     },50);
   }
 
