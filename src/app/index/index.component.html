@@ -10,7 +10,7 @@
                 <span class="word-container">
                     Hi, I'm Zulfo,&nbsp;
                     <span class="word">
-                        {{ currentText }}<span class="cursor">|</span>&nbsp;
+                        {{ currentText }}<span class="cursor">|</span>
                     </span>
                     Full Stack Developer.
                 </span>
@@ -46,6 +46,12 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="content">
+            <div *ngIf="this.isAboutVisible">
+                <p></p>
+            </div>
         </div>
 
         <div class="reset"

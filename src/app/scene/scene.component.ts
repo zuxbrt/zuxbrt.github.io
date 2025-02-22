@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SimplexNoise } from 'simplex-noise';
 import { StateService } from '../../services/state.service';
 import { IndexComponent } from "../index/index.component";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 
 
 @Component({
@@ -22,6 +24,7 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
   private starGeometry!: THREE.BufferGeometry;
   private starVertices!: Float32Array;
   private asteroid!: THREE.Mesh;
+  private room!: THREE.Mesh;
   private originalVertices!: Float32Array;
   private asteroidVelocity = new THREE.Vector3(
     (Math.random() - 0.5) * 0.05,
@@ -33,31 +36,53 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
   private isResetting = false;
   private planets: THREE.Mesh[] = [];
   private planetSpawnInterval = 5000;
-  private isWarping = true;
+  private isWarping = false;
   private warpSpeed = 0; // 15
 
   private starTrailGeometry!: THREE.BufferGeometry;
   private starTrailMaterial!: THREE.LineBasicMaterial;
   private glowMesh!: THREE.Mesh;
-
-  private animationFrameId!: number;
-
   private noise = new SimplexNoise();
 
   isSectionOpen: boolean = false;
+  isInsideAsteroid: boolean = false;
+
+  private animationFrameId!: number;
 
   constructor(private el: ElementRef, private stateService: StateService) { }
 
   ngOnInit(): void {
     this.stateService.appState$.subscribe((appState) => {
-      this.isSectionOpen = appState.currentSection != null;
-      (this.isSectionOpen) ? this.triggerWarpEffect() : this.stopWarpEffect();
+      console.log(appState.currentSection)
+      switch (appState.currentSection) {
+        case 'about':
+          this.moveCameraIntoAsteroid();
+
+          break;
+        case 'casestudy':
+
+          break;
+
+        case 'contact':
+          this.triggerWarpEffect();
+          break;
+
+        case null:
+          if (this.isWarping) this.stopWarpEffect();
+          if (this.isInsideAsteroid) this.resetCamera();
+          break;
+
+        default:
+          // if(this.isWarping) this.stopWarpEffect();
+          break;
+      }
     });
 
     this.initScene();
     this.addStars();
     this.createStarTrails();
     this.addAsteroid();
+    this.setupRoom();
     this.startSpawningPlanets();
     this.createAsteroidGlow();
     this.animate();
@@ -169,6 +194,11 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
 
     material.normalMap = normalMap;
     material.normalScale.set(0.5, 0.5);
+    material.transparent = false; // Disable transparency
+    material.opacity = 1; // Fully opaque
+    material.depthWrite = true; // Ensure proper depth rendering
+    material.side = THREE.DoubleSide; // Render only the outside
+
 
     this.asteroid = new THREE.Mesh(geometry, material);
     this.asteroid.scale.set(1, 1, 1);
@@ -184,14 +214,56 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
     directionalLight.shadow.mapSize.height = 1024;
     this.scene.add(directionalLight);
 
-    const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white ambient light
-    this.scene.add(ambientLight);
+    // const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white ambient light
+    // this.scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 0.5, 50); // Faint glow
-    pointLight.position.set(0, 0, 0); // Attach to asteroid position
-    this.asteroid.add(pointLight); // Makes it move with the asteroid
+    // const pointLight = new THREE.PointLight(0xffffff, 0.5, 50); // Faint glow
+    // pointLight.position.set(0, 0, 0); // Attach to asteroid position
+    // this.asteroid.add(pointLight); // Makes it move with the asteroid
 
 
+  }
+
+  private setupRoom(): void {
+    const roomGeometry = new THREE.BoxGeometry(2, 2, 2);
+    const roomMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0xffffff, // White color for the room
+      emissive: 0x222222, // Subtle internal glow
+      side: THREE.BackSide, // Render the inside walls of the room 
+    });
+    this.room = new THREE.Mesh(roomGeometry, roomMaterial);
+  
+    this.room.position.set(0, 0, 0);
+
+    const loader = new GLTFLoader();
+
+    loader.load('assets/models/bm86/BM86_Portable.gltf', (gltf) => {
+      const model = gltf.scene;
+
+      // Scale and position the model inside the cube (room)
+      model.scale.set(1, 1, 1); // Adjust scale as needed
+      model.position.set(0, 0, 0); // Center it inside the room
+
+      // Attach model to the room (cube)
+      this.room.add(model);
+    },
+    undefined,
+    (error) => {
+      console.error('An error happened while loading the model:', error);
+    });
+
+    // const roomLight = new THREE.PointLight(0xffffff, 1, 10); // White light, intensity 1, range 10
+    // roomLight.position.set(0, 0, 0); // Centered inside the room
+  
+    // Optional: Add a small helper to visualize the light position
+    // const lightHelper = new THREE.PointLightHelper(roomLight, 0.2);
+  
+    // Attach the light to the room
+    // this.room.add(roomLight);
+    // this.room.add(lightHelper);
+
+
+    this.asteroid.add(this.room);
   }
 
   private createAsteroidGlow(): void {
@@ -210,6 +282,8 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.asteroid.add(this.glowMesh);
   }
+
+
 
 
   private createRandomPlanet(): THREE.Mesh {
@@ -304,12 +378,21 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private moveAsteroid(): void {
-    this.asteroid.rotation.y += 0.0005;
-    this.asteroid.rotation.x += 0.0005;
+    if(!this.isInsideAsteroid){
+      this.asteroid.rotation.y += 0.0005;
+      this.asteroid.rotation.x += 0.0005;
+    } else {
+      (this.asteroid.material as THREE.MeshStandardMaterial).color.set(0x111111); // Dark gray color
+      (this.asteroid.material as THREE.MeshStandardMaterial).transparent = false; // Disable transparency
+      (this.asteroid.material as THREE.MeshStandardMaterial).opacity = 1; // Fully opaque
+      (this.asteroid.material as THREE.MeshStandardMaterial).aoMapIntensity = 1; // Increase ambient occlusion
+
+    }
   }
 
   private morphAsteroidGeometry(): void {
-    if(this.isWarping){
+    if (this.isWarping) {
+
       const time = Date.now() * 0.0001; // Slower morphing for realism
       const geometry = this.asteroid.geometry;
       const oscillation = Math.sin(time) * 0.5 + 0.5;
@@ -356,6 +439,7 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private animateStars(): void {
     const positions = this.starGeometry.attributes['position'].array as Float32Array;
+    const starMaterial = this.stars?.material as THREE.PointsMaterial;
 
     for (let i = 0; i < positions.length; i += 3) {
       positions[i + 2] += this.isWarping ? this.warpSpeed : 0.2;
@@ -370,6 +454,9 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
       this.stars.rotation.y += 0.0005;
       this.stars.rotation.x += 0.0005;
       this.stars.rotation.z += 0.0005;
+
+      starMaterial.opacity = this.isWarping ? 0 : 1;
+      starMaterial.transparent = true;
     }
 
     // slowdown
@@ -385,20 +472,38 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
     const starPositions = this.starGeometry.attributes['position'].array as Float32Array;
     const trailPositions = this.starTrailGeometry.attributes['position'].array as Float32Array;
 
-    this.starTrailMaterial.opacity = this.isWarping ? 0.5 : this.starTrailMaterial.opacity;
+    this.starTrailMaterial.opacity = this.isWarping ? 0.5 : Math.max(0, this.starTrailMaterial.opacity - 0.02);
 
     for (let i = 0; i < starPositions.length; i += 3) {
       const currentZ = starPositions[i + 2];
+      const trailStartZ = trailPositions[i * 2 + 2]; // Previous position's Z
 
-      // Previous position (start of trail)
-      trailPositions[i * 2] = starPositions[i];
-      trailPositions[i * 2 + 1] = starPositions[i + 1];
-      trailPositions[i * 2 + 2] = currentZ + 20; // Offset trail in z for a stretched effect
+      if (this.isWarping) {
+        // Stretch trails dynamically during warp
+        trailPositions[i * 2] = starPositions[i];
+        trailPositions[i * 2 + 1] = starPositions[i + 1];
+        trailPositions[i * 2 + 2] = currentZ + 60; // Longer trail during warp
 
-      // New position (end of trail)
-      trailPositions[i * 2 + 3] = starPositions[i];
-      trailPositions[i * 2 + 4] = starPositions[i + 1];
-      trailPositions[i * 2 + 5] = currentZ;
+        // End of the trail
+        trailPositions[i * 2 + 3] = starPositions[i];
+        trailPositions[i * 2 + 4] = starPositions[i + 1];
+        trailPositions[i * 2 + 5] = currentZ;
+
+        // hide inital stars
+        this
+      } else {
+        // Smoothly reduce trail length after warp
+        const reducedZ = THREE.MathUtils.lerp(trailStartZ, currentZ, 0.1);
+
+        trailPositions[i * 2] = starPositions[i];
+        trailPositions[i * 2 + 1] = starPositions[i + 1];
+        trailPositions[i * 2 + 2] = reducedZ; // Gradually shrink trail
+
+        // End of the trail
+        trailPositions[i * 2 + 3] = starPositions[i];
+        trailPositions[i * 2 + 4] = starPositions[i + 1];
+        trailPositions[i * 2 + 5] = currentZ;
+      }
     }
 
     this.starTrailGeometry.attributes['position'].needsUpdate = true;
@@ -418,6 +523,97 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
       glowMaterial.opacity = Math.max(0.0, glowMaterial.opacity - 0.05); // Fade out
     }
   }
+
+  private validateStarPositions(): void {
+    const positions = this.starGeometry.attributes['position'].array as Float32Array;
+
+    for (let i = 0; i < positions.length; i++) {
+      if (isNaN(positions[i])) {
+        positions[i] = 0; // Reset to 0 if NaN is detected
+      }
+    }
+
+    this.starGeometry.attributes['position'].needsUpdate = true;
+  }
+
+  private updateRoomVisibility(): void {
+    if (this.room) {
+      const cubeMaterial = this.room.material as THREE.MeshStandardMaterial;
+      cubeMaterial.color.set(this.isWarping ? 0x000000 : 0xffffff);
+      cubeMaterial.transparent = true;
+      cubeMaterial.wireframe = this.isWarping ? true : false;
+    }
+  }
+  
+
+
+  private moveCameraIntoAsteroid(): void {
+
+    const targetPosition = new THREE.Vector3(
+      this.asteroid.position.x,
+      this.asteroid.position.y,
+      this.asteroid.position.z + 2
+    );
+
+    const startPosition = this.camera.position.clone();
+    let progress = 0;
+
+    const animateMove = () => {
+      if (progress < 1) {
+        progress += 1 / (3 * 60);
+        this.camera.position.lerpVectors(startPosition, targetPosition, progress);
+
+        this.camera.lookAt(this.asteroid.position);
+
+        requestAnimationFrame(animateMove);
+      } else {
+        this.isInsideAsteroid = true;
+      }
+    };
+
+    animateMove();
+  }
+
+  private resetCamera(): void {
+    
+    const targetPosition = new THREE.Vector3(
+      this.asteroid.position.x,
+      this.asteroid.position.y,
+      this.asteroid.position.z + 15
+    );
+
+    const startPosition = this.camera.position.clone();
+    let progress = 0;
+
+    const animateMove = () => {
+      if (progress < 1) {
+        progress += 1 / (3 * 60); // 3 s * (Assuming) 60 FPS
+        this.camera.position.lerpVectors(startPosition, targetPosition, progress);
+
+        // Optionally, make the camera look at the asteroid
+        this.camera.lookAt(0,0,0);
+
+        requestAnimationFrame(animateMove);
+      } else {
+        this.isInsideAsteroid = false;
+      }
+    };
+
+    animateMove();
+  }
+
+  private updateVisibilityBasedOnCamera(): void {
+    const roomBoundingBox = new THREE.Box3().setFromObject(this.room);
+  
+    // Check if the camera is inside the room
+    const isInsideRoom = roomBoundingBox.containsPoint(this.camera.position);
+  
+    // Hide or show objects outside the room
+    this.asteroid.visible = !isInsideRoom;
+    if (this.stars) this.stars.visible = !isInsideRoom;
+    this.planets.forEach((planet) => (planet.visible = !isInsideRoom));
+  }
+  
 
 
   private triggerWarpEffect(): void {
@@ -440,8 +636,11 @@ export class SceneComponent implements OnInit, AfterViewInit, OnDestroy {
     this.handleSmoothReset();
     this.updatePlanets();
     this.updateAsteroidGlow();
+    this.validateStarPositions();
     this.updateStarTrails();
     this.fadeOutTrails();
+    this.updateRoomVisibility();
+    this.updateVisibilityBasedOnCamera();
 
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
