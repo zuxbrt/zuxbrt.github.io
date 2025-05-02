@@ -5,8 +5,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 type IntroProps = {
-    setHoveredSection: any;
-    onOpenSection: (section: string) => any;
+    setHoveredSection: (section: string|null) => void;
+    onOpenSection: (section: string) => () => void;
 }
 
 export default function Intro({ setHoveredSection, onOpenSection }: IntroProps ) {
@@ -25,7 +25,7 @@ export default function Intro({ setHoveredSection, onOpenSection }: IntroProps )
 
         setHoveredSection(section);
 
-    }, [isOnExperience, isOnProjects, isOnAbout, isOnContact]);
+    }, [isOnExperience, isOnProjects, isOnAbout, isOnContact, setHoveredSection]);
 
 
 
@@ -48,7 +48,7 @@ export default function Intro({ setHoveredSection, onOpenSection }: IntroProps )
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: 'easeOut' }}
                         className="text-4xl font-light">
-                            Hi, I'm Zulfo Muhović,
+                            Hi, I&apos;m Zulfo Muhović,
                         </motion.p>
                         
                         <motion.p
@@ -184,10 +184,6 @@ const boxStyle: React.CSSProperties = {
     backgroundColor: "#f8f9fa",
     color: "#212529",
     cursor: 'pointer'
-}
-
-const borderStyle: React.CSSProperties = {
-    border: "1px solid #f8f9fa"
 }
 
 const containerStyle: React.CSSProperties = {

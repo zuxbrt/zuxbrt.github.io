@@ -1,32 +1,19 @@
 'use client';
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type IntroProps = {
-    setHoveredSection: any;
-    onOpenSection: (section: string) => any;
+    onOpenSection: (section: string) => void;
     isVisible: boolean;
 }
 
-export default function Intro({ setHoveredSection, onOpenSection, isVisible }: IntroProps) {
+export default function Intro({ onOpenSection, isVisible }: IntroProps) {
 
     const [isOnExperience, setIsOnExperience] = useState(false);
     const [isOnSkills, setIsOnSkills] = useState(false);
     const [isOnAbout, setIsOnAbout] = useState(false);
     const [isOnContact, setIsOnContact] = useState(false);
-
-    useEffect(() => {
-        let section: string | null = null;
-        if (isOnExperience) section = 'experience';
-        if (isOnSkills) section = 'skills';
-        if (isOnAbout) section = 'about';
-        if (isOnContact) section = 'contact';
-
-        setHoveredSection(section);
-
-    }, [isOnExperience, isOnSkills, isOnAbout, isOnContact]);
-
 
 
     return (
@@ -51,7 +38,7 @@ export default function Intro({ setHoveredSection, onOpenSection, isVisible }: I
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8, ease: 'easeOut' }}
                                     className="text-4xl font-light">
-                                    Hi, I'm Zulfo Muhović,
+                                    Hi, I&apos;m Zulfo Muhović,
                                 </motion.p>
 
                                 <motion.p

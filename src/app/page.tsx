@@ -3,7 +3,7 @@
 import Background from "@/components/background/background";
 import { Modal } from "@/components/modal/modal";
 import Intro from "@/components/card/card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Skills from "@/components/sections/skills";
 import Experience from "@/components/sections/experience";
 import About from "@/components/sections/about";
@@ -18,15 +18,6 @@ export default function Home() {
   const open = () => setModalOpen(true);
 
   const [isCardVisible, setIsCardVisible] = useState(true);
-  const [hoveredSection, setHoveredSection] = useState(null);
-  const [color1, setColor1] = useState<number>(0x000000);
-  const [color2, setColor2] = useState<number>(0xffffff);
-  const [scale, setScale] = useState<number>(1);
-  const [backgroundColor, setBackgroundColor] = useState<any>(0x111111);
-
-  useEffect(() => {
-
-  }, [hoveredSection])
 
   const openSection = (section: string) => {
     setIsCardVisible(false);
@@ -45,12 +36,12 @@ export default function Home() {
 
   return (
     <>
-      <Background color1={color1} scale={scale} color2={color2} backgroundColor={backgroundColor} />
+      <Background />
 
       <div 
       // animate hide on click
       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <Intro setHoveredSection={setHoveredSection} onOpenSection={openSection} isVisible={isCardVisible} />
+        <Intro onOpenSection={openSection} isVisible={isCardVisible} />
       </div>
       
       <Modal isOpen={modalOpen} onClose={() => handleSectionClose()}>

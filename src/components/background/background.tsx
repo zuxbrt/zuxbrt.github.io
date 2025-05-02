@@ -4,16 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import CELLS from 'vanta/dist/vanta.cells.min';
 
-type BackgroundProps = {
-  color1: number;
-  color2: number;
-  backgroundColor: number;
-  scale: number;
-}
+type VantaEffect = {
+  destroy: () => void;
+  [key: string]: unknown;
+};
 
-export default function Background ({ color1, color2, backgroundColor, scale }: BackgroundProps) {
+export default function Background () {
   const vantaRef = useRef<HTMLDivElement>(null);
-  const [vantaEffect, setVantaEffect] = useState<any>(null);
+  const [vantaEffect, setVantaEffect] = useState<VantaEffect>();
 
 
   useEffect(() => {
@@ -26,11 +24,11 @@ export default function Background ({ color1, color2, backgroundColor, scale }: 
           touchControls: true,
           minHeight: 200.0,
           minWidth: 200.0,
-          scale: scale,
+          scale: 1,
           scaleMobile: 1.0,
-          backgroundColor: backgroundColor,
-          color1: color1,
-          color2: color2,
+          backgroundColor: 0x111111,
+          color1: 0x000000,
+          color2: 0xffffff,
         })
       );
     }
@@ -38,18 +36,7 @@ export default function Background ({ color1, color2, backgroundColor, scale }: 
     return () => {
       if (vantaEffect) vantaEffect.destroy();
     };
-  }, []);
-
-  useEffect(() => {
-    if (vantaEffect) {
-      vantaEffect.setOptions({
-        color1,
-        color2,
-        backgroundColor,
-        scale,
-      });
-    }
-  }, [color1, color2, backgroundColor, scale, vantaEffect]);
+  }, [vantaEffect]);
 
   return <div ref={vantaRef} style={backgroundStyle} className="relative w-full" />;
 };
