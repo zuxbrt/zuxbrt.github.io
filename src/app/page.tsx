@@ -8,6 +8,7 @@ import Skills from "@/components/sections/skills";
 import Experience from "@/components/sections/experience";
 import About from "@/components/sections/about";
 import Contact from "@/components/sections/contact";
+import Meta from "@/components/meta/meta";
 
 export default function Home() {
 
@@ -36,6 +37,8 @@ export default function Home() {
 
   return (
     <>
+      <Meta/>
+      
       <Background />
 
       <div 
