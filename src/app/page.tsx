@@ -8,7 +8,6 @@ import Skills from "@/components/sections/skills";
 import Experience from "@/components/sections/experience";
 import About from "@/components/sections/about";
 import Contact from "@/components/sections/contact";
-import Meta from "@/components/meta/meta";
 
 export default function Home() {
 
@@ -37,13 +36,9 @@ export default function Home() {
 
   return (
     <>
-      <Meta/>
-      
       <Background />
 
-      <div 
-      // animate hide on click
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <Intro onOpenSection={openSection} isVisible={isCardVisible} />
       </div>
       

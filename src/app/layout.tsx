@@ -2,16 +2,6 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
 const lato = Lato({
   weight: '400',
   subsets: ['latin'],
@@ -21,6 +11,28 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "Zulfo Muhović",
   description: "Full Stack Developer",
+  verification: {
+    google: "xAEcQPksFuxiClIDf2rhNPmYcaZMzl9LnnyyoahK5gI",
+  },
+  openGraph: {
+    title: "Zulfo Muhović",
+    description: "Full Stack Developer",
+    url: "https://zuxbrt.github.io",
+    images: [
+      {
+        url: "https://zuxbrt.github.io/og-image.png",
+        width: 800,
+        height: 600,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zulfo Muhović",
+    description: "Full Stack Developer",
+    images: ["https://zuxbrt.github.io/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -31,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${lato} antialiased`}
+        className={`${lato} antialiased`} suppressHydrationWarning
       >
         {children}
       </body>
