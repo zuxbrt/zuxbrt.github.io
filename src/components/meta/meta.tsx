@@ -12,6 +12,7 @@ export default function Meta({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="google-site-verification" content="xAEcQPksFuxiClIDf2rhNPmYcaZMzl9LnnyyoahK5gI" />
       <meta charSet="UTF-8" />
 
       {/* Open Graph / Facebook */}
