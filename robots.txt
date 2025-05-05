@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://zuxbrt.github.io/
+
+# Sitemaps
+Sitemap: https://zuxbrt.github.io/sitemap.xml
