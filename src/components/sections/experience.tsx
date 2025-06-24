@@ -40,6 +40,30 @@ export default function Experience() {
                             transition={{ duration: 0.8, ease: 'easeOut' }}
                         >
                             <a
+                                className="text-xl font-semibold decoration-1" target="blank" href="https://www.klika.us/" rel="noopener noreferrer" title="Klika">
+                                Klika
+                            </a>
+                        </motion.div>
+
+                    </div>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1.2, ease: 'easeOut' }}
+                        className="text-sm mt-1">
+                        21.06.2025
+                    </motion.p>
+                </div>
+
+
+                <div className="flex flex-col px-2 py-1 mb-5">
+                    <div className="flex flex-row">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: 'easeOut' }}
+                        >
+                            <a
                                 className="text-xl font-semibold decoration-1" target="blank" href="https://purplekey.ba/" rel="noopener noreferrer" title="PurpleKey">
                                 Purple Key Creative Agency&nbsp;|&nbsp;
                             </a>
@@ -55,7 +79,7 @@ export default function Experience() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.2, ease: 'easeOut' }}
                         className="text-sm mt-1">
-                        15.01.2021
+                        15.01.2021 - 20.06.2025
                     </motion.p>
                 </div>
 

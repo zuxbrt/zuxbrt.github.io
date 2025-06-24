@@ -1,0 +1,56 @@
+@font-face {
+  font-display: swap;
+  font-family: "EBGaramond";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/EBGaramond-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Swis721BT-Regular2";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/Swis721BT-Regular2.otf") format("opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Swis721BT-Regular3";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/Swis721BT-Regular3.otf") format("opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Swiss721BT-BoldItalic";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/Swiss721BT-BoldItalic.otf") format("opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Swiss721BT-Medium";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/Swiss721BT-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Swiss721BT-MediumItalic";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/Swiss721BT-MediumItalic.otf") format("opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Swiss721BT-Roman";
+  font-style: italic;
+  font-weight: initial;
+  src: url("../fonts/Swiss721BT-Roman.otf") format("opentype");
+}
+
