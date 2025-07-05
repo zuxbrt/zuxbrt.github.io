@@ -5,13 +5,12 @@ var current_section = null;
 
 window.addEventListener("DOMContentLoaded", () => {
     setLanguage('hr');
-    // startApp();
     setSection('timeline');
 })
 
 function startApp() {
-      const el = document.documentElement;
-      if (el.requestFullscreen) el.requestFullscreen();
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
 
     document.getElementById("startContainer").classList.add('hiding');
 
@@ -100,7 +99,7 @@ function setLanguage(selected_lang) {
     document.getElementById('timeline-4-text-6').textContent = langData.timeline4text6;
     document.getElementById('timeline-4-text-7').textContent = langData.timeline4text7;
     document.getElementById('timeline-4-text-8').textContent = langData.timeline4text8;
-    document.getElementById('timeline-4-text-9').textContent = langData.timeline4text9;
+    document.getElementById('timeline-4-text-9').innerHTML = langData.timeline4text9;
     document.getElementById('timeline-4-text-10').textContent = langData.timeline4text10;
     document.getElementById('timeline-4-text-11').textContent = langData.timeline4text11;
 
